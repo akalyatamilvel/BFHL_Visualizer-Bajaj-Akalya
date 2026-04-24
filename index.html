@@ -62,13 +62,17 @@ async function sendData() {
   const data = raw.split(",").map(x => x.trim());
 
   try {
-    const res = await fetch("http://localhost:3000/bfhl", {
+    const res = await fetch("https://bfhl-visualizer-backend.onrender.com/bfhl", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ data })
     });
+
+    if (!res.ok) {
+       throw new Error("API error");
+    }
 
     const result = await res.json();
 
@@ -77,7 +81,7 @@ async function sendData() {
 
   } catch (err) {
     document.getElementById("output").innerText =
-      "Error connecting to API";
+      "Failed to connect. Check backend or network.";
   }
 }
 </script>
